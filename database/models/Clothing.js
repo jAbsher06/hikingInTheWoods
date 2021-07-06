@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const clothingSchema = mongoose.Schema({
+  id: Number,
   item: String,
   priority: String,
   description: String,

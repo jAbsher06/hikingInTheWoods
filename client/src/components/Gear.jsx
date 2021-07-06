@@ -13,7 +13,7 @@ const Gear = (props) => {
       <h2>Gear</h2>
       <ul class="gear">
         <li>
-          <ClothingWorn />
+          {/* <ClothingWorn /> */}
           <Clothing />
           <Pack />
           <Kitchen />
