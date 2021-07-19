@@ -1,17 +1,49 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import axios from 'axios';
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import { DataGrid } from '@material-ui/data-grid';
 import { GearContext } from '../GearContext';
+import Table from './Table.jsx';
 
 const Clothing = (props) => {
   const [num, setNum] = useState(3);
   const [clothesFetched, setClothesFetched] = useState(false);
   const [clothes, setClothes] = useState();
-  const [bringing, setBringing] = useState('no');
-  const [inhand, setInhand] = useState('no');
-  const [packed, setPacked] = useState('no');
 
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Item',
+        accessor: 'Item',
+      },
+      {
+        Header: 'Priority',
+        accessor: 'Priority',
+      },
+      {
+        Header: 'Description',
+        accessor: 'Description',
+      },
+      {
+        Header: 'Example',
+        accessor: 'Example',
+      },
+      {
+        id: 'Bringing',
+        Header: 'Bringing',
+        accessor: d => d.Bringing === false ? 'No' : 'Yes'
+      },
+      {
+        id: 'Inhand',
+        Header: 'In-Hand',
+        accessor: d => d.Inhand === false ? 'No' : 'Yes',
+      },
+      {
+        id: 'Packed',
+        Header: 'Packed',
+        accessor: d => d.Packed === false ? 'No' : 'Yes',
+      }
+    ], []
+  )
   useEffect(() => {
     axios.get('/clothing')
       .then((res) => {
@@ -25,80 +57,18 @@ const Clothing = (props) => {
 
   }, [num]);
 
-  if (clothesFetched) {
-    return (
-      <div style={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={[
-            clothes.map((piece, index) => (
-              {item: piece.Item, priority: piece.priority, description: piece.description, example: piece.example, bringing: piece.bringing, inHand: piece.inHand, packed: piece.packed}
-            ))
-          ]}
-          columns={[
-            {
-              field: 'item',
-              headerName: 'Item',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'priority',
-              headerName: 'Priority',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'description',
-              headerName: 'Description',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'item',
-              headerName: 'Item',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'example',
-              headerName: 'Example',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'bringing',
-              headerName: 'Bringing',
-              type: 'boolean',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'inHand',
-              headerName: 'In-Hand',
-              type: 'boolean',
-              width: 150,
-              editable: true,
-            },
-            {
-              field: 'packed',
-              headerName: 'Packed',
-              width: 150,
-              editable: true,
-            },
-          ]}
-          getRowId={() => Math.random()}
-          pageSize={10}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </div>
-    );
-  }
   return (
     <div>
-      <h2>Loading...</h2>
+      {clothesFetched ? (
+        <div>
+          <h2>Clothing</h2>
+          <Table data={clothes} columns={columns}/>
+        </div>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
-  );
+  )
 };
 
 export default Clothing;

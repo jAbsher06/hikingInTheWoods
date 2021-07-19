@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useTable } from 'react-table';
 import { GearContext } from '../GearContext';
 
-const ClothingTable = ({columns, data}) => {
+const Table = ({columns, data}) => {
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
     data,
@@ -29,7 +29,7 @@ const ClothingTable = ({columns, data}) => {
         ))}
       </TableHead>
       <TableBody>
-        {rows.map((rows, i) => {
+        {rows.map((row, i) => {
           prepareRow(row)
           return (
             <TableRow {...row.getRowProps()}>
@@ -48,4 +48,4 @@ const ClothingTable = ({columns, data}) => {
   )
 }
 
-export default CLothingTable;
+export default Table;
