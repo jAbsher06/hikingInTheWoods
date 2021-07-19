@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import axios from 'axios';
 import { GearContext } from '../GearContext';
+import Table from './Table.jsx';
+import useColumns from './useColumns.jsx'
+
 const Pack = (props) => {
   const [num, setNum] = useState(3);
   const [packFetched, setPackFetched] = useState(false);
   const [pack, setPack] = useState();
-  const [bringing, setBringing] = useState('no');
-  const [inhand, setInhand] = useState('no');
-  const [packed, setPacked] = useState('no');
+
+  const columns = useColumns();
 
   useEffect(() => {
     axios.get('/pack')
@@ -21,27 +23,18 @@ const Pack = (props) => {
 
   }, [num]);
 
-  if (packFetched) {
-    return (
-      <div>
-        <h2>Pack/Tent/Sleeping Gear</h2>
-        <div>Item Priority Description Example</div>
-        <div>
-          {pack.map((item, index) => (
-            <li>
-              {item.Item} {item.Priority}  {item.Example} {bringing} {inhand} {packed}
-            </li>
-
-          ))}
-        </div>
-      </div>
-    );
-  }
   return (
     <div>
-      <h2>Loading...</h2>
+      {packFetched ? (
+        <div>
+          <h2>Major Gear</h2>
+          <Table data={pack} columns={columns}/>
+        </div>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
-  );
+  )
 };
 
 export default Pack;

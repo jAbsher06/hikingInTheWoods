@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import axios from 'axios';
 import { GearContext } from '../GearContext';
+import Table from './Table.jsx';
+import useColumns from './useColumns.jsx';
+
 const ClothingWorn = (props) => {
   const [num, setNum] = useState(3);
   const [wornClothesFetched, setWornClothesFetched] = useState(false);
   const [clothesWorn, setClothesWorn] = useState();
-  const [bringing, setBringing] = useState('no');
-  const [inhand, setInhand] = useState('no');
-  const [packed, setPacked] = useState('no');
+  const columns = useColumns();
 
   useEffect(() => {
     axios.get('/clothingWorn')
@@ -22,27 +23,20 @@ const ClothingWorn = (props) => {
 
   }, [num]);
 
-  if (wornClothesFetched) {
-    return (
-      <div>
-        <h2>Clothes Worn</h2>
-        <div>Item Priority Description Example Inhand Packed</div>
-        <div>
-          {clothesWorn.map((item, index) => (
-            <li>
-              {item.Item} {item.Priority}  {item.Example} {inhand} {packed}
-            </li>
 
-          ))}
-        </div>
-      </div>
-    );
-  }
+
   return (
     <div>
-      <h2>Loading...</h2>
+      {wornClothesFetched ? (
+        <div>
+          <h2>Clothing Worn</h2>
+          <Table data={clothesWorn} columns={columns}/>
+        </div>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
-  );
+  )
 };
 
 export default ClothingWorn;

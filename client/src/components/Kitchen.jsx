@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { GearContext } from '../GearContext';
+import Table from './Table.jsx'
+import useColumns from './useColumns.jsx'
+
 const Kitchen = (props) => {
   const [num, setNum] = useState(3);
   const [kitchenFetched, setKitchenFetched] = useState(false);
   const [kitchen, setKitchen] = useState();
-  const [quantity, setQuantity] = useState(0);
-  const [bringing, setBringing] = useState('no');
-  const [inhand, setInhand] = useState('no');
-  const [packed, setPacked] = useState('no');
+  const columns = useColumns();
 
   useEffect(() => {
     axios.get('/kitchen')
@@ -22,27 +22,18 @@ const Kitchen = (props) => {
 
   }, [num]);
 
-  if (kitchen) {
-    return (
-      <div>
-        <h2>Kitchen & Hydration</h2>
-        <div>Item Priority Description Example</div>
-        <div>
-          {kitchen.map((item, index) => (
-            <li>
-              {item.Item} {item.Priority}  {item.Example} {bringing} {inhand} {packed} {quantity}
-            </li>
-
-          ))}
-        </div>
-      </div>
-    );
-  }
   return (
     <div>
-      <h2>Loading...</h2>
+      {kitchenFetched ? (
+        <div>
+          <h2>Kitchen</h2>
+          <Table data={kitchen} columns={columns}/>
+        </div>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
-  );
+  )
 };
 
 export default Kitchen;

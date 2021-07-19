@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import axios from 'axios';
 import { GearContext } from '../GearContext';
+import Table from './Table.jsx'
+import useColumns from './useColumns.jsx'
+
 const Utilities = (props) => {
   const [num, setNum] = useState(3);
   const [utilitiesFetched, setUtilitiesFetched] = useState(false);
   const [utilities, setUtilities] = useState();
-  const [bringing, setBringing] = useState('no');
-  const [inhand, setInhand] = useState('no');
-  const [packed, setPacked] = useState('no');
+  const columns = useColumns();
 
   useEffect(() => {
     axios.get('/utilities')
@@ -21,27 +22,18 @@ const Utilities = (props) => {
 
   }, [num]);
 
-  if (utilitiesFetched) {
-    return (
-      <div>
-        <h2>Navigation/Utilities/Personal/Tools</h2>
-        <div>Item Priority Description Example</div>
-        <div>
-          {utilities.map((item, index) => (
-            <li>
-              {item.Item} {item.Priority}  {item.Example} {bringing} {inhand} {packed}
-            </li>
-
-          ))}
-        </div>
-      </div>
-    );
-  }
   return (
     <div>
-      <h2>Loading...</h2>
+      {utilitiesFetched ? (
+        <div>
+          <h2>Utilities/Tools</h2>
+          <Table data={utilities} columns={columns}/>
+        </div>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
-  );
+  )
 };
 
 export default Utilities;

@@ -3,47 +3,15 @@ import axios from 'axios';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import { GearContext } from '../GearContext';
 import Table from './Table.jsx';
+import useColumns from './useColumns.jsx';
 
 const Clothing = (props) => {
   const [num, setNum] = useState(3);
   const [clothesFetched, setClothesFetched] = useState(false);
   const [clothes, setClothes] = useState();
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Item',
-        accessor: 'Item',
-      },
-      {
-        Header: 'Priority',
-        accessor: 'Priority',
-      },
-      {
-        Header: 'Description',
-        accessor: 'Description',
-      },
-      {
-        Header: 'Example',
-        accessor: 'Example',
-      },
-      {
-        id: 'Bringing',
-        Header: 'Bringing',
-        accessor: d => d.Bringing === false ? 'No' : 'Yes'
-      },
-      {
-        id: 'Inhand',
-        Header: 'In-Hand',
-        accessor: d => d.Inhand === false ? 'No' : 'Yes',
-      },
-      {
-        id: 'Packed',
-        Header: 'Packed',
-        accessor: d => d.Packed === false ? 'No' : 'Yes',
-      }
-    ], []
-  )
+  const columns = useColumns();
+
   useEffect(() => {
     axios.get('/clothing')
       .then((res) => {
