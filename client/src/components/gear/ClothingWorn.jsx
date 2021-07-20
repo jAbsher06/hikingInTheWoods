@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import axios from 'axios';
-import { GearContext } from '../GearContext';
 import Table from './Table.jsx';
-import useColumns from './useColumns.jsx'
+import useColumns from './useColumns.jsx';
 
-const Pack = (props) => {
+const ClothingWorn = (props) => {
   const [num, setNum] = useState(3);
-  const [packFetched, setPackFetched] = useState(false);
-  const [pack, setPack] = useState();
-
+  const [wornClothesFetched, setWornClothesFetched] = useState(false);
+  const [clothesWorn, setClothesWorn] = useState();
   const columns = useColumns();
 
   useEffect(() => {
-    axios.get('/pack')
+    axios.get('/clothingWorn')
       .then((res) => {
-        setPack(res.data);
-        setPackFetched(true);
+
+        setClothesWorn(res.data);
+        setWornClothesFetched(true);
       })
       .catch((error) => {
         console.log('Error fetching data', error);
@@ -23,12 +22,14 @@ const Pack = (props) => {
 
   }, [num]);
 
+
+
   return (
     <div>
-      {packFetched ? (
+      {wornClothesFetched ? (
         <div>
-          <h2>Major Gear</h2>
-          <Table data={pack} columns={columns}/>
+          <h2>Clothing Worn</h2>
+          <Table data={clothesWorn} columns={columns}/>
         </div>
       ) : (
         <h2>Loading...</h2>
@@ -37,4 +38,4 @@ const Pack = (props) => {
   )
 };
 
-export default Pack;
+export default ClothingWorn;

@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import axios from 'axios';
-import { GearContext } from '../GearContext';
-import Table from './Table.jsx'
+import Table from './Table.jsx';
 import useColumns from './useColumns.jsx'
 
-const Utilities = (props) => {
+const Pack = (props) => {
   const [num, setNum] = useState(3);
-  const [utilitiesFetched, setUtilitiesFetched] = useState(false);
-  const [utilities, setUtilities] = useState();
+  const [packFetched, setPackFetched] = useState(false);
+  const [pack, setPack] = useState();
+
   const columns = useColumns();
 
   useEffect(() => {
-    axios.get('/utilities')
+    axios.get('/pack')
       .then((res) => {
-        setUtilities(res.data);
-        setUtilitiesFetched(true);
+        setPack(res.data);
+        setPackFetched(true);
       })
       .catch((error) => {
         console.log('Error fetching data', error);
@@ -24,10 +24,10 @@ const Utilities = (props) => {
 
   return (
     <div>
-      {utilitiesFetched ? (
+      {packFetched ? (
         <div>
-          <h2>Utilities/Tools</h2>
-          <Table data={utilities} columns={columns}/>
+          <h2>Major Gear</h2>
+          <Table data={pack} columns={columns}/>
         </div>
       ) : (
         <h2>Loading...</h2>
@@ -36,4 +36,4 @@ const Utilities = (props) => {
   )
 };
 
-export default Utilities;
+export default Pack;

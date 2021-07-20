@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Container from '@material-ui/core/Container';
-import Gear from './Gear.jsx';
+import Gear from './gear/Gear.jsx';
 import Logistics from './Logistics.jsx';
 import Weather from './Weather.jsx';
 

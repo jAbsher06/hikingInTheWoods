@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { GearContext } from '../GearContext';
 import Table from './Table.jsx'
 import useColumns from './useColumns.jsx'
 

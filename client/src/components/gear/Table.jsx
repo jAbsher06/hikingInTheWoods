@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import MaUTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useTable } from 'react-table';
-import { GearContext } from '../GearContext';
+
 
 const Table = ({columns, data}) => {
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
