@@ -27,7 +27,7 @@ const Clothing = (props) => {
   return (
     <div>
       {clothesFetched ? (
-        // <div>/
+        <div>
           <h2>Clothing</h2>
           <Table data={clothes} columns={columns}/>
         </div>
